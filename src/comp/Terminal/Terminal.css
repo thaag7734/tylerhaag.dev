@@ -1,0 +1,25 @@
+.terminal {
+  background-color: #000;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  color: #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  white-space: pre;
+
+  > .prompt {
+    display: inline-block;
+
+    > input {
+      background: none;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

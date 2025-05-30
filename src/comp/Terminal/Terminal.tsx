@@ -1,0 +1,88 @@
+import { ReactNode, useEffect, useRef, useState } from "react";
+import "./Terminal.css";
+import { processCommand } from "../../util/cmd-handler";
+
+export const CURSOR_BLINK_INTERVAL_MS = 600;
+export const PS1 = "wash> ";
+
+export default function Terminal() {
+  const [content, setContent] = useState<ReactNode>();
+  const [inputContent, setInputContent] = useState<string>("");
+  const [cursorVisible, setCursorVisible] = useState<boolean>(true);
+  const inputRef = useRef<string>(inputContent);
+
+  useEffect(() => {
+    inputRef.current = inputContent;
+  }, [inputContent]);
+
+  useEffect(() => {
+    const cursorAnim = setInterval(() => {
+      setCursorVisible((prev) => !prev);
+    }, CURSOR_BLINK_INTERVAL_MS);
+
+    // we split this into two listeners because the keypress
+    // event makes it easier to check for printable keys.
+    // it's slightly more overhead but there's basically
+    // no overhead anywhere else so it's fine
+    const charKeyListener = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        setInputContent("");
+        const res = processCommand(inputRef.current);
+
+        // clear the terminal if needed
+        if (res.clear) {
+          setContent(null);
+          return;
+        }
+
+        // set the content if we're not clearing
+        setContent(prev => (
+          <>
+            {prev}
+            <span>{PS1 + inputRef.current}</span><br/>
+            {res.output ?? ""}
+          </>
+        ));
+
+        return;
+      }
+
+      setInputContent(prev => prev + e.key);
+    };
+
+    const modKeyListener = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "Backspace":
+          setInputContent(prev => prev.slice(0, prev.length - 1));
+          break;
+        default:
+          break;
+      }
+    };
+    addEventListener("keypress", charKeyListener);
+    addEventListener("keydown", modKeyListener);
+
+    return () => {
+      clearInterval(cursorAnim);
+      removeEventListener("keypress", charKeyListener);
+      removeEventListener("keydown", modKeyListener);
+    }
+  }, [])
+
+  return (
+    <>
+      <div className="terminal">
+        <div className="term-content">
+          {content}
+        </div>
+        <div className="prompt">
+          <span className="prompt">{PS1}</span>
+          <span className="prompt input">{inputContent}</span>
+          <span className="cursor" style={
+            { color: cursorVisible ? "inherit" : "rgba(0, 0, 0, 0)" }
+          }>▉</span>
+        </div>
+      </div>
+    </>
+  );
+}
