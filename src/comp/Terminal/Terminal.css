@@ -18,14 +18,14 @@
   > .prompt {
     display: inline-block;
 
-    > input {
-      background: none;
-      border: none;
-
-      &:focus {
-        outline: none;
-      }
+    > .cursor {
+      user-select: none;
     }
+  }
+
+  & *::selection {
+    background-color: #ddd;
+    color: #000;
   }
 }
 

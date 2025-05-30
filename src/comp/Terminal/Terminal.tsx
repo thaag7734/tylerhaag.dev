@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import "./Terminal.css";
 import { processCommand } from "../../util/cmd-handler";
 
@@ -12,24 +12,34 @@ export default function Terminal() {
   const inputRef = useRef<string>(inputContent);
   const focusThiefRef = useRef<HTMLTextAreaElement>(null);
 
+  const userIsSelecting = useCallback((): boolean => {
+    const sel = document.getSelection();
+    return (sel != null && !sel.isCollapsed);
+  }, []);
+
   useEffect(() => {
     inputRef.current = inputContent;
   }, [inputContent]);
 
-  useEffect(() => {
-    focusThiefRef.current?.focus();
-  })
+  useEffect(() => {}, [userIsSelecting])
 
   useEffect(() => {
     const cursorAnim = setInterval(() => {
       setCursorVisible((prev) => !prev);
     }, CURSOR_BLINK_INTERVAL_MS);
 
+    const refocus = setInterval(() => {
+      if (focusThiefRef.current == null || document.getSelection()) return;
+      focusThiefRef.current.focus();
+    }, 300);
+
     // we split this into two listeners because the keypress
     // event makes it easier to check for printable keys.
     // it's slightly more overhead but there's basically
     // no overhead anywhere else so it's fine
     const charKeyListener = (e: KeyboardEvent) => {
+      if (userIsSelecting()) return;
+
       if (e.key === "Enter") {
         setInputContent("");
         focusThiefRef.current!.value = "";
@@ -77,10 +87,11 @@ export default function Terminal() {
 
     return () => {
       clearInterval(cursorAnim);
+      clearInterval(refocus);
       removeEventListener("keypress", charKeyListener);
       removeEventListener("keydown", modKeyListener);
     }
-  }, [])
+  }, [userIsSelecting]);
 
   return (
     <>
@@ -93,9 +104,11 @@ export default function Terminal() {
         <div className="prompt">
           <span className="prompt" aria-hidden="true">{PS1}</span>
           <span className="prompt input" aria-hidden="true">{inputContent}</span>
-          <span className="cursor" style={
-            { color: cursorVisible ? "inherit" : "rgba(0, 0, 0, 0)" }
-          }>▉</span>
+          <span className="cursor" aria-hidden="true" style={{
+            color: (userIsSelecting() || !cursorVisible)
+              ? "rgba(0, 0, 0, 0)"
+              : "inherit"
+          }}>▉</span>
         </div>
       </div>
       <textarea
