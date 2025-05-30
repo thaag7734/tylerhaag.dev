@@ -32,6 +32,8 @@ export default function Terminal() {
     const charKeyListener = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         setInputContent("");
+        focusThiefRef.current!.value = "";
+
         const res = processCommand(inputRef.current);
 
         // clear the terminal if needed
@@ -44,8 +46,14 @@ export default function Terminal() {
         setContent(prev => (
           <div>
             {prev}
-            <span>{PS1 + inputRef.current}</span><br/>
-            {res.output ?? ""}
+            <div role="group" aria-label={`Command: ${inputRef.current}`}>
+              <span aria-hidden="true">{PS1}</span>
+              <span>{inputRef.current}</span><br/>
+            </div>
+            <div
+              role="group"
+              aria-label={`Command output${res.output ? "" : "(empty)"}`}
+            >{res.output}</div>
           </div>
         ));
 
@@ -83,8 +91,8 @@ export default function Terminal() {
           className="term-content"
         >{content}</div>
         <div className="prompt">
-          <span className="prompt">{PS1}</span>
-          <span className="prompt input">{inputContent}</span>
+          <span className="prompt" aria-hidden="true">{PS1}</span>
+          <span className="prompt input" aria-hidden="true">{inputContent}</span>
           <span className="cursor" style={
             { color: cursorVisible ? "inherit" : "rgba(0, 0, 0, 0)" }
           }>▉</span>
