@@ -29,7 +29,7 @@ export default function Terminal() {
     }, CURSOR_BLINK_INTERVAL_MS);
 
     const refocus = setInterval(() => {
-      if (focusThiefRef.current == null || document.getSelection()) return;
+      if (focusThiefRef.current == null || userIsSelecting()) return;
       focusThiefRef.current.focus();
     }, 300);
 
