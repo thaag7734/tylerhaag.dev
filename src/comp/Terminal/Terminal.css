@@ -23,3 +23,22 @@
     }
   }
 }
+
+#focus-thief {
+  position: absolute;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  width: 0;
+  height: 0;
+  background: none;
+  color: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}

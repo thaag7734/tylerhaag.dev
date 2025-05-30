@@ -10,10 +10,15 @@ export default function Terminal() {
   const [inputContent, setInputContent] = useState<string>("");
   const [cursorVisible, setCursorVisible] = useState<boolean>(true);
   const inputRef = useRef<string>(inputContent);
+  const focusThiefRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     inputRef.current = inputContent;
   }, [inputContent]);
+
+  useEffect(() => {
+    focusThiefRef.current?.focus();
+  })
 
   useEffect(() => {
     const cursorAnim = setInterval(() => {
@@ -83,6 +88,12 @@ export default function Terminal() {
           }>▉</span>
         </div>
       </div>
+      <textarea
+        aria-hidden="true"
+        id="focus-thief"
+        ref={focusThiefRef}
+        onBlur={() => focusThiefRef.current!.focus()}
+      ></textarea>
     </>
   );
 }
