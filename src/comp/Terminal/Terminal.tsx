@@ -101,7 +101,7 @@ export default function Terminal() {
           aria-atomic="false"
           className="term-content"
         >{content}</div>
-        <div className="prompt">
+        <div className="prompt" onClick={() => focusThiefRef.current?.focus()}>
           <span className="prompt" aria-hidden="true">{PS1}</span>
           <span className="prompt input" aria-hidden="true">{inputContent}</span>
           <span className="cursor" aria-hidden="true" style={{
