@@ -15,18 +15,16 @@ const COMMANDS = {
             const cmdNames = Object.keys(COMMANDS).sort();
 
             return (
-              <>
+              <span>
                 {cmdNames.map((cmdName, idx) => (
-                  <>
-                    <span>{cmdName}{
+                    <span key={cmdName}>{cmdName}{
                       (idx !== cmdNames.length - 1)
                         ? ", "
                         : ""
                     }</span>
-                  </>
                 ))}
                 <br/>
-              </>
+              </span>
             );
           })()}
           <br/>
@@ -53,10 +51,10 @@ export const processCommand = (cmd: string): CommandResult => {
 
   return (COMMANDS[cmdName as keyof(typeof COMMANDS)] ?? (() => ({
     output: (
-      <>
+      <span>
         <span>Invalid command: {cmdName}</span><br/><br/>
         {COMMANDS["help"]().output}
-      </>
+      </span>
     ),
   })))()
 }

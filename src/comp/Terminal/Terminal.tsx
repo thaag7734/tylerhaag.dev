@@ -42,11 +42,11 @@ export default function Terminal() {
 
         // set the content if we're not clearing
         setContent(prev => (
-          <>
+          <div>
             {prev}
             <span>{PS1 + inputRef.current}</span><br/>
             {res.output ?? ""}
-          </>
+          </div>
         ));
 
         return;
@@ -77,9 +77,11 @@ export default function Terminal() {
   return (
     <>
       <div className="terminal">
-        <div className="term-content">
-          {content}
-        </div>
+        <div
+          aria-live="assertive"
+          aria-atomic="false"
+          className="term-content"
+        >{content}</div>
         <div className="prompt">
           <span className="prompt">{PS1}</span>
           <span className="prompt input">{inputContent}</span>
@@ -89,7 +91,7 @@ export default function Terminal() {
         </div>
       </div>
       <textarea
-        aria-hidden="true"
+        aria-label="Terminal input"
         id="focus-thief"
         ref={focusThiefRef}
         onBlur={() => focusThiefRef.current!.focus()}
