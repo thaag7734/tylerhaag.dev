@@ -6,14 +6,23 @@ const help: Command = {
     if (args.length > 1) {
       return {
         output: (
-          <span>Too many arguments: command <span className="bold">help</span> accepts 0-1 arguments</span>
+          <>
+            <span>
+              [<span className="error">Error</span>]:
+              Command <span className="bold">help</span> accepts 0-1 arguments
+              ({args.length} given)
+            </span><br/><br/>
+          </>
         ),
       };
     } else if (args.length === 1) {
       return COMMANDS[args[0]]?.usage() ?? {
         output: (
           <span>
-            <span>Invalid command: {args[0]}</span><br/><br/>
+            <span>
+              [<span className="error">Error</span>]:
+              {" "}{args[0]} is not a valid command.
+            </span><br/><br/>
             {COMMANDS["help"].fn([]).output}
           </span>
         ),
