@@ -6,7 +6,7 @@ const help: Command = {
     if (args.length > 1) {
       return {
         output: (
-          <span>Too many arguments: command <b>help</b> accepts 0-1 arguments</span>
+          <span>Too many arguments: command <span className="bold">help</span> accepts 0-1 arguments</span>
         ),
       };
     } else if (args.length === 1) {
@@ -42,7 +42,7 @@ const help: Command = {
           })()}
           <br/>
           <span>
-            Use <b>help &lt;command&gt;</b> to see detailed usage for a specific command.
+            Use <span className="bold">help [command]</span> to see detailed usage for a specific command.
           </span>
           <br/><br/>
         </>

@@ -82,6 +82,7 @@ export default function Terminal() {
           break;
       }
     };
+
     addEventListener("keypress", charKeyListener);
     addEventListener("keydown", modKeyListener);
 
