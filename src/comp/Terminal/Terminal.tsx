@@ -44,28 +44,40 @@ export default function Terminal() {
         setInputContent("");
         focusThiefRef.current!.value = "";
 
-        const res = processCommand(inputRef.current);
+        let includeCmd = true;
 
-        // clear the terminal if needed
-        if (res.clear) {
-          setContent(null);
-          return;
+        for (const cmd of inputRef.current.trim().split("&&")) {
+          const res = processCommand(cmd);
+
+          // clear the terminal if needed
+          if (res.clear) {
+            setContent(null);
+          } else {
+            // this fixes a race condition where includeCmd is overwritten before it's used
+            const actuallyIncludeCmd = includeCmd;
+
+            // set the content if we're not clearing
+            setContent(prev => (
+              <div>
+                {prev}
+                {
+                  actuallyIncludeCmd
+                    ? (<div role="group" aria-label={`Command: ${inputRef.current}`}>
+                        <span aria-hidden="true">{PS1}</span>
+                        <span>{inputRef.current}</span><br/>
+                      </div>)
+                    : null
+                }
+                <div
+                  role="group"
+                  aria-label={`Command output${res.output ? "" : "(empty)"}`}
+                >{res.output}</div>
+              </div>
+            ));
+          }
+
+          includeCmd = false;
         }
-
-        // set the content if we're not clearing
-        setContent(prev => (
-          <div>
-            {prev}
-            <div role="group" aria-label={`Command: ${inputRef.current}`}>
-              <span aria-hidden="true">{PS1}</span>
-              <span>{inputRef.current}</span><br/>
-            </div>
-            <div
-              role="group"
-              aria-label={`Command output${res.output ? "" : "(empty)"}`}
-            >{res.output}</div>
-          </div>
-        ));
 
         return;
       }
