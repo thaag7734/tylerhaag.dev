@@ -52,16 +52,17 @@ export default function Terminal() {
           // clear the terminal if needed
           if (res.clear) {
             setContent(null);
-          } else {
+          }
+
+          if (res.output != null) {
             // this fixes a race condition where includeCmd is overwritten before it's used
             const actuallyIncludeCmd = includeCmd;
 
-            // set the content if we're not clearing
             setContent(prev => (
               <div>
-                {prev}
+                {res.clear ? null : prev}
                 {
-                  actuallyIncludeCmd
+                  actuallyIncludeCmd && !res.clear
                     ? (<div role="group" aria-label={`Command: ${inputRef.current}`}>
                         <span aria-hidden="true">{PS1}</span>
                         <span>{inputRef.current}</span><br/>

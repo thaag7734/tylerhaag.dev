@@ -3,12 +3,14 @@ import cat from "./cat";
 import clear from "./clear";
 import help from "./help";
 import ls from "./ls";
+import nav from "./nav";
 
 const COMMANDS: Record<string, Command> = {
   help,
   clear,
   cat,
   ls,
+  nav,
 }
 
 export default COMMANDS;
