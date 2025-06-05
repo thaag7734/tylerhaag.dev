@@ -36,3 +36,14 @@ html {
   font-weight: 700;
   color: #f00;
 }
+
+a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+  
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
