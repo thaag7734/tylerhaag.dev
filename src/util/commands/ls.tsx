@@ -2,7 +2,7 @@ import { Command } from "../cmd-handler";
 import FILES from "../tfiles";
 
 const ls: Command = {
-  fn: (args) => {
+  fn: () => {
     return {
       output: (
         <>
