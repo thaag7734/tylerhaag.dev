@@ -21,7 +21,9 @@ export default (
       MySQL, MariaDB
     </span><br/>
     <span>
-      <span className="bold">ORMs:</span> Eloquent, TypeORM, Sequelize, SQLAlchemy</span><br/>
+      <span className="bold">ORMs:</span> Eloquent,
+      TypeORM, Sequelize, SQLAlchemy
+    </span><br/>
     <br/>
   </>
 )
