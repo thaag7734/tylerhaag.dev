@@ -23,7 +23,7 @@ export default (
     <br/>
     <span>
       If you&apos;re interested in seeing a list of the languages and technologies I&apos;m
-      comfortable working with, you can run <span className="bold">cat skills</span>.
+      comfortable working with, you can run <span className="bold">nav skills</span>.
     </span><br/>
     <br/>
   </>

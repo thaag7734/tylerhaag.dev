@@ -45,7 +45,7 @@ const motd: Command = {
             {" "}<span className="bold">ls</span> and picking a file to
             {" "}<span className="bold">nav</span> to. For example:<br/>
             <span className="bold">nav about</span><br/>
-            will &quot;navigate&quot; to my About Me page.
+            will &quot;navigate&quot; to the <span className="bold">about</span> file.
           </span><br/>
           <br/>
         </>
