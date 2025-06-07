@@ -1,1 +1,1 @@
-[Visit the hosted site](https://tylerhaag.dev);
+[Visit the hosted site](https://tylerhaag.dev)
