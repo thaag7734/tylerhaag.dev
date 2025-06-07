@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import "./Terminal.css";
 import { processCommand } from "../../util/cmd-handler";
+import COMMANDS from "../../util/commands";
 
 export const CURSOR_BLINK_INTERVAL_MS = 600;
 export const PS1 = "wash> ";
@@ -20,6 +21,10 @@ export default function Terminal() {
   useEffect(() => {
     inputRef.current = inputContent;
   }, [inputContent]);
+
+  useEffect(() => {
+    setContent(COMMANDS.motd.fn([]).output);
+  }, [])
 
   useEffect(() => {}, [userIsSelecting])
 
