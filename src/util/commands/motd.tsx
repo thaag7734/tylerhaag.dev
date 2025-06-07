@@ -1,6 +1,7 @@
-
 import { Command } from "../cmd-handler";
 
+// this might make more sense as a tfile, but it seems better to me semantically
+// for it to be a command. perhaps i've been poisoned by minecraft
 const motd: Command = {
   fn: () => {
     return {
@@ -37,6 +38,14 @@ const motd: Command = {
           <span>
             Chaining is supported with the{" "}
             <span className="bold">&amp;&amp;</span> operator.
+          </span><br/>
+          <br/>
+          <span>
+            If you don&apos;t know where to start, try running
+            {" "}<span className="bold">ls</span> and picking a file to
+            {" "}<span className="bold">nav</span> to. For example:<br/>
+            <span className="bold">nav about</span><br/>
+            will &quot;navigate&quot; to my About Me page.
           </span><br/>
           <br/>
         </>
